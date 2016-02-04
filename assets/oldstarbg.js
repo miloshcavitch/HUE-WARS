@@ -2,31 +2,11 @@ var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
 var worldColor = colorRay[Math.round(Math.random() * 764)];
 
-function star(x){
-  switch(x){
-    case 16:
-      this.thesize = Math.random()*0.3 + 0.3;
-      this.speed = this.thesize * 2;
-      break;
-    case 8:
-      this.thesize = Math.random()*0.6 + 0.6;
-      this.speed = this.thesize * 2;
-      break;
-    case 4:
-      this.thesize = Math.random() * 1.2 + 1.2;
-      this.speed = this.thesize * 2;
-      break;
-    case 2:
-      this.thesize = Math.random() * 2.4 + 2.4;
-      this.speed = this.thesize * 2;
-      break;
-    case 1:
-      this.thesize = Math.random() * 4.8 + 4.8;
-      this.speed = this.thesize * 2;
-      break;
-    default:
-      this.thesize = Math.random() * 4.8;
-      this.speed = this.thesize * 2;
+function star(){
+  this.thesize = Math.random()*4;
+  this.speed = this.thesize * 2;
+  if (this.thesize < 0.6){
+    this.speed = this.thesize * 2;
   }
   this.posY = 0;
   this.posX = Math.round(Math.random() * canvas.width);
@@ -41,8 +21,7 @@ function star(x){
 }
 var starLayers = [];
 var starSpawnTimer = {spawnTimer: 0, then: 0};
-
-function spawner(obj){//hopefully this will be the old one, see new one below
+function spawner(obj){
   var ahora = Date.now();
   if (ahora >= obj.spawnTimer + obj.then){
     obj.then = ahora;
@@ -50,27 +29,7 @@ function spawner(obj){//hopefully this will be the old one, see new one below
     starLayers.push(new star());
   }
 }
-//new one
-function spacedSpawner(){
-    var spaceStat = Math.random() * 31;
-    var x;
-    if (spaceStat > 15){
-      x = 16;
-    }
-    if (spaceStat <= 15 && spaceStat > 7){
-      x = 8;
-    }
-    if (spaceStat <= 7 && spaceStat > 3){
-      x = 4;
-    }
-    if (spaceStat <= 3 && spaceStat > 1){
-      x = 2;
-    }
-    if (spaceStat <= 1){
-      x = 1;
-    }
-    starLayers.push(new star(x))
-}
+
 function LayerTraverse(el){//runs updateStar for all the stars
   if (el.posY >= canvas.height){
     el = new star(0);//trouble here
@@ -90,7 +49,7 @@ function update(){
   ctx.fillStyle = 'black';
   ctx.fill();
   ctx.closePath();
-  spacedSpawner(starSpawnTimer);
+  spawner(starSpawnTimer, 0);
   starLayers.forEach(LayerTraverse);
   //counts frames per second for debugging, should be 50
   fpsCounter++;
