@@ -1,32 +1,32 @@
 var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
 var worldColor = colorRay[Math.round(Math.random() * 764)];
-
+var s = 1;
 function star(x){
   switch(x){
     case 16:
       this.thesize = Math.random()*0.3 + 0.3;
-      this.speed = this.thesize * 2;
+      this.speed = this.thesize * s;
       break;
     case 8:
       this.thesize = Math.random()*0.6 + 0.6;
-      this.speed = this.thesize * 2;
+      this.speed = this.thesize * s;
       break;
     case 4:
       this.thesize = Math.random() * 1.2 + 1.2;
-      this.speed = this.thesize * 2;
+      this.speed = this.thesize * s;
       break;
     case 2:
       this.thesize = Math.random() * 2.4 + 2.4;
-      this.speed = this.thesize * 2;
+      this.speed = this.thesize * s;
       break;
     case 1:
       this.thesize = Math.random() * 4.8 + 4.8;
-      this.speed = this.thesize * 2;
+      this.speed = this.thesize * s;
       break;
     default:
       this.thesize = Math.random() * 4.8;
-      this.speed = this.thesize * 2;
+      this.speed = this.thesize * s;
   }
   this.posY = 0;
   this.posX = Math.round(Math.random() * canvas.width);
@@ -83,11 +83,12 @@ var fpsCounter = 0;
 var lastSecond = 0;
 var fpsString = '';
 
-function update(){
+function updateStars(){
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.beginPath();
   ctx.rect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = 'black';
+//  spaceBackground();
+  ctx.fillStyle = spaceColor;//variable can be found in rainbowray.js
   ctx.fill();
   ctx.closePath();
   spacedSpawner(starSpawnTimer);
@@ -103,5 +104,3 @@ function update(){
   ctx.fillText(fpString, 10, 20);
 
 }
-
-setInterval(update, 20);

@@ -9,6 +9,7 @@ function colorToHex(midcolor, highcolor){
   return string;
 }
 
+
 function rgbToHex(red, green, blue){//converts 3 color values into a color ratio to maximize brightness and that into a hex value to be used with html and css
   var hexR, hexG, hexB;
   var cRay = [red, green, blue];
@@ -103,4 +104,53 @@ for (var i = 510; i < 765; i++){
 
 for (var c = 0; c < colorRay.length; c++){
   console.log(colorRay[c]);
+}
+
+function shadeToHex(color){
+  if (color < 16){
+    color = "0" + color.toString(16);
+  } else{
+    color = color.toString(16);
+  }
+  return color;
+}
+
+function colorShader(colorString, newShade){
+  var rString, gString, bString;
+  var shadeMultiplier = newShade/255;
+  rString = colorString.slice(1,3);
+  rString = parseInt(rString, 16);
+  rString = Math.round(rString * shadeMultiplier);
+  rString = shadeToHex(rString);
+
+  gString = colorString.slice(3,5);
+  gString = parseInt(gString, 16);
+  gString = Math.round(gString * shadeMultiplier);
+  gString = shadeToHex(gString);
+
+  bString = colorString.slice(5,7);
+  bString = parseInt(bString, 16);
+  bString = Math.round(bString * shadeMultiplier);
+  bString = shadeToHex(bString);
+
+  var newString = '#' + rString + gString + bString;
+  return newString;
+
+}
+var spaceColorIndex = 0;
+var spaceColor = '#000000';
+var lastTime = 0;
+
+function spaceBackground(){
+  var ahora = Date.now();
+
+  if (ahora >= lastTime + 10){
+    spaceColorIndex++;
+    lastTime = ahora;
+    if (spaceColorIndex >= 765){
+      spaceColorIndex = 0;
+    }
+    spaceColor = colorShader(colorRay[spaceColorIndex], 100);
+    console.log(spaceColor);
+  }
 }
