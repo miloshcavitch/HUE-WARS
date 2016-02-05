@@ -25,7 +25,11 @@ function spawnChar(){
                         {xPos: this.leftCenter + 4 * this.unit, yPos: this.topPos + 9 * this.unit, xWidth: this.unit, yHeight: 3 * this.unit, elColor: 'white'},
                         {xPos: this.leftCenter - 4 * this.unit, yPos: this.topPos + 7 * this.unit, xWidth: this.unit, yHeight: 2 * this.unit, elColor: 'red'},
                         {xPos: this.leftCenter + 4 * this.unit, yPos: this.topPos + 7 * this.unit, xWidth: this.unit, yHeight: 2 * this.unit, elColor: 'red'},
-                        {xPos: this.leftCenter, yPos: this.topPos+ 17 * this.unit, xWidth: this.unit, yHeight: this.unit, elColor: 'white'}];
+                        {xPos: this.leftCenter, yPos: this.topPos+ 17 * this.unit, xWidth: this.unit, yHeight: 2 * this.unit, elColor: 'white'},
+                        {xPos: this.leftCenter - 2 * this.unit, yPos: this.topPos + 15 * this.unit, xWidth: this.unit, yHeight: 3 * this.unit, elColor: 'red'},
+                        {xPos: this.leftCenter + 2 * this.unit, yPos: this.topPos + 15 * this.unit, xWidth: this.unit, yHeight: 3 * this.unit, elColor: 'red'},
+                        {xPos: this.leftCenter - 3 * this.unit, yPos: this.topPos + 16 * this.unit, xWidth: this.unit, yHeight: 2 * this.unit, elColor: 'red'},
+                        {xPos: this.leftCenter + 3 * this.unit, yPos: this.topPos + 16 * this.unit, xWidth: this.unit, yHeight: 2 * this.unit, elColor: 'red'},];
   this.staticShipRender = function(){
     this.staticRectPos.forEach(function(el){
       ctx.beginPath();
