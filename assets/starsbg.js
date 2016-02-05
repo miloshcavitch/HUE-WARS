@@ -2,7 +2,7 @@ var ahora = Date.now()// initialized here because this is first event
 var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
 var worldColor = colorRay[Math.round(Math.random() * 764)];
-var s = 0.65;
+var s = 1;
 function star(x){
   switch(x){
     case 16:

@@ -11,7 +11,7 @@ function spawnChar(){
   this.rainbowIndex = 0;
   this.blendColor = '#FF0000';
   this.mouseColorP = '#FFFFFF';
-  this.mouseColorS = '#000000';
+  this.mouseColorS = '#FF0000';
   this.leftCenter = this.Xcenter - this.unit/2;
   this.topPos = this.Ycenter - this.theheight/2;
   this.staticRectPos = [{xPos: this.leftCenter, yPos: this.topPos, xWidth: this.unit, yHeight: 3 * this.unit, elColor: this.mouseColorP},//tip
@@ -47,18 +47,18 @@ function spawnChar(){
     }
   }
   this.staticShipRender = function(){
-    this.colorInput();
+    //this.colorInput();
     this.staticRectPos.forEach(function(el){
       ctx.beginPath();
       ctx.rect(el.xPos, el.yPos, el.xWidth, el.yHeight);
-      ctx.fillStyle = "\'" + el.elColor + "\'";
+      ctx.fillStyle = el.elColor;
       ctx.fill();
       ctx.closePath;
     })
   }
 
 
-  this.colorCycle = function(){
+    this.colorCycle = function(){
     if (ahora >= this.lastColorCycle + this.colorTimer){
       this.rainbowIndex += 15;
       this.lastColorCycle = ahora;
