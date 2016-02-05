@@ -1,7 +1,8 @@
+var ahora = Date.now()// initialized here because this is first event
 var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
 var worldColor = colorRay[Math.round(Math.random() * 764)];
-var s = 1;
+var s = 0.65;
 function star(x){
   switch(x){
     case 16:
@@ -28,7 +29,7 @@ function star(x){
       this.thesize = Math.random() * 4.8;
       this.speed = this.thesize * s;
   }
-  this.posY = 0;
+  this.posY = -20;
   this.posX = Math.round(Math.random() * canvas.width);
   this.updateStar = function(){
     ctx.beginPath();
@@ -43,7 +44,7 @@ var starLayers = [];
 var starSpawnTimer = {spawnTimer: 0, then: 0};
 
 function spawner(obj){//hopefully this will be the old one, see new one below
-  var ahora = Date.now();
+  ahora = Date.now();
   if (ahora >= obj.spawnTimer + obj.then){
     obj.then = ahora;
     obj.spawnTimer = Math.round(Math.random() * 20);
