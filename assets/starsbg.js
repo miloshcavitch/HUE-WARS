@@ -34,7 +34,7 @@ function star(x){
   this.updateStar = function(){
     ctx.beginPath();
     ctx.rect(this.posX, this.posY, this.thesize, this.thesize * 1.5);
-    ctx.fillStyle = colorRay[Math.round(Math.random() * 764)];;
+    ctx.fillStyle = 'white'//colorRay[Math.round(Math.random() * 764)];// or colorRay[charColorIndex];
     ctx.fill();
     ctx.closePath();
     this.posY += this.speed;

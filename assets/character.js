@@ -9,6 +9,7 @@ function spawnChar(){
   this.lastColorCycle = 0;
   this.colorTimer = 10;
   this.rainbowIndex = 0;
+  this.frameCount = 0;
   this.blendColor = '#FF0000';
   this.mouseColorP = '#FFFFFF';
   this.mouseColorS = '#FF0000';
@@ -16,45 +17,53 @@ function spawnChar(){
   this.topPos = this.Ycenter - this.theheight/2;
   this.staticRectPos = [{xPos: this.leftCenter, yPos: this.topPos, xWidth: this.unit, yHeight: 3 * this.unit, elColor: this.mouseColorP},//tip
                         {xPos: this.leftCenter - this.unit, yPos: this.topPos + 3 * this.unit, xWidth: 3 * this.unit, yHeight: this.unit * 7, elColor: this.mouseColorP},
-                        {xPos: this.leftCenter - this.unit * 2, yPos: this.topPos + 10 * this.unit, xWidth: 5 * this.unit, yHeight: 2 * this.unit, elColor: this.mouseColorP},
-                        {xPos: this.leftCenter - this.unit * 4, yPos: this.topPos + 12 * this.unit, xWidth: 9 * this.unit, yHeight: 4 * this.unit, elColor: this.mouseColorP},
+                        {xPos: this.leftCenter - this.unit * 2, yPos: this.topPos + 10 * this.unit, xWidth: 5 * this.unit, yHeight: 2 * this.unit, elColor: this.mouseColorP, cs: 0},
+                        {xPos: this.leftCenter - this.unit * 4, yPos: this.topPos + 12 * this.unit, xWidth: 9 * this.unit, yHeight: 4 * this.unit, elColor: this.mouseColorP, cs: 0},
                         //wings
-                        {xPos: this.leftCenter - this.unit * 7, yPos: this.topPos + 15 * this.unit, xWidth: 15 * this.unit, yHeight: this.unit, elColor: this.mouseColorP},
-                        {xPos: this.leftCenter - 7 * this.unit, yPos: this.topPos + 10 * this.unit, xWidth: this.unit, yHeight: 2* this.unit, elColor: this.mouseColorS},
-                        {xPos: this.leftCenter + 7 * this.unit, yPos: this.topPos + 10 * this.unit, xWidth: this.unit, yHeight: 2 * this.unit, elColor: this.mouseColorS},
-                        {xPos: this.leftCenter - 7 * this.unit, yPos: this.topPos + 12 * this.unit, xWidth: this.unit, yHeight: 3 * this.unit, elColor: this.mouseColorP},
-                        {xPos: this.leftCenter + 7 * this.unit, yPos: this.topPos + 12 * this.unit, xWidth: this.unit, yHeight: 3 * this.unit, elColor: this.mouseColorP},
-                        {xPos: this.leftCenter - 4 * this.unit, yPos: this.topPos + 9 * this.unit, xWidth: this.unit, yHeight: 3 * this.unit, elColor: this.mouseColorP},
-                        {xPos: this.leftCenter + 4 * this.unit, yPos: this.topPos + 9 * this.unit, xWidth: this.unit, yHeight: 3 * this.unit, elColor: this.mouseColorP},
-                        {xPos: this.leftCenter - 4 * this.unit, yPos: this.topPos + 7 * this.unit, xWidth: this.unit, yHeight: 2 * this.unit, elColor: this.mouseColorS},
-                        {xPos: this.leftCenter + 4 * this.unit, yPos: this.topPos + 7 * this.unit, xWidth: this.unit, yHeight: 2 * this.unit, elColor: this.mouseColorS},
+                        {xPos: this.leftCenter - this.unit * 7, yPos: this.topPos + 15 * this.unit, xWidth: 15 * this.unit, yHeight: this.unit, elColor: this.mouseColorP, cs: 0},
+                        {xPos: this.leftCenter - 7 * this.unit, yPos: this.topPos + 10 * this.unit, xWidth: this.unit, yHeight: 2* this.unit, elColor: this.mouseColorS, cs: 1},
+                        {xPos: this.leftCenter + 7 * this.unit, yPos: this.topPos + 10 * this.unit, xWidth: this.unit, yHeight: 2 * this.unit, elColor: this.mouseColorS, cs: 1},
+                        {xPos: this.leftCenter - 7 * this.unit, yPos: this.topPos + 12 * this.unit, xWidth: this.unit, yHeight: 3 * this.unit, elColor: this.mouseColorP, cs: 0},
+                        {xPos: this.leftCenter + 7 * this.unit, yPos: this.topPos + 12 * this.unit, xWidth: this.unit, yHeight: 3 * this.unit, elColor: this.mouseColorP, cs: 0},
+                        {xPos: this.leftCenter - 4 * this.unit, yPos: this.topPos + 9 * this.unit, xWidth: this.unit, yHeight: 3 * this.unit, elColor: this.mouseColorP, cs: 0},
+                        {xPos: this.leftCenter + 4 * this.unit, yPos: this.topPos + 9 * this.unit, xWidth: this.unit, yHeight: 3 * this.unit, elColor: this.mouseColorP, cs: 0},
+                        {xPos: this.leftCenter - 4 * this.unit, yPos: this.topPos + 7 * this.unit, xWidth: this.unit, yHeight: 2 * this.unit, elColor: this.mouseColorS, cs: 1},
+                        {xPos: this.leftCenter + 4 * this.unit, yPos: this.topPos + 7 * this.unit, xWidth: this.unit, yHeight: 2 * this.unit, elColor: this.mouseColorS, cs: 1},
                         //back
-                        {xPos: this.leftCenter, yPos: this.topPos+ 17 * this.unit, xWidth: this.unit, yHeight: 2 * this.unit, elColor: this.mouseColorP},//tail
-                        {xPos: this.leftCenter - this.unit, yPos: this.topPos + 16 * this.unit, xWidth: 3 * this.unit, yHeight: this.unit, elColor: this.mouseColorP},
-                        {xPos: this.leftCenter - 2 * this.unit, yPos: this.topPos + 15 * this.unit, xWidth: this.unit, yHeight: 3 * this.unit, elColor: this.mouseColorS},
-                        {xPos: this.leftCenter + 2 * this.unit, yPos: this.topPos + 15 * this.unit, xWidth: this.unit, yHeight: 3 * this.unit, elColor: this.mouseColorS},
-                        {xPos: this.leftCenter - 3 * this.unit, yPos: this.topPos + 16 * this.unit, xWidth: this.unit, yHeight: 2 * this.unit, elColor: this.mouseColorS},
-                        {xPos: this.leftCenter + 3 * this.unit, yPos: this.topPos + 16 * this.unit, xWidth: this.unit, yHeight: 2 * this.unit, elColor: this.mouseColorS}];
+                        {xPos: this.leftCenter, yPos: this.topPos+ 17 * this.unit, xWidth: this.unit, yHeight: 2 * this.unit, elColor: this.mouseColorP, cs: 0},//tail
+                        {xPos: this.leftCenter - 2 * this.unit, yPos: this.topPos + 16 * this.unit, xWidth: 5 * this.unit, yHeight: this.unit, elColor: this.mouseColorP, cs: 0},
+                        {xPos: this.leftCenter - 2 * this.unit, yPos: this.topPos + 15 * this.unit, xWidth: this.unit, yHeight: 3 * this.unit, elColor: this.mouseColorS, cs: 1},
+                        {xPos: this.leftCenter + 2 * this.unit, yPos: this.topPos + 15 * this.unit, xWidth: this.unit, yHeight: 3 * this.unit, elColor: this.mouseColorS, cs: 1},
+                        {xPos: this.leftCenter - 3 * this.unit, yPos: this.topPos + 16 * this.unit, xWidth: this.unit, yHeight: 2 * this.unit, elColor: this.mouseColorS, cs: 1},
+                        {xPos: this.leftCenter + 3 * this.unit, yPos: this.topPos + 16 * this.unit, xWidth: this.unit, yHeight: 2 * this.unit, elColor: this.mouseColorS, cs: 1}];
   this.colorInput = function(){
     if (charColorIndex != this.rainbowIndex){
       this.rainbowIndex = charColorIndex;
-      this.mouseColorP = "\'" + colorRay[this.rainbowIndex] + "\'";
+      this.mouseColorP = colorRay[this.rainbowIndex];
       if (this.rainbowIndex + 382 >= 765){
-        this.mouseColorS = "\'" + colorRay[765 - this.rainbowIndex - 382] + "\'";
+        this.mouseColorS = colorRay[765 - this.rainbowIndex - 382];
       } else {
-        this.mouseColorS = "\'" + colorRay[this.rainbowIndex];
+        this.mouseColorS = colorRay[382 + this.rainbowIndex];
+        console.log(this.mouseColorS)
       }
     }
   }
+
   this.staticShipRender = function(){
-    //this.colorInput();
+    this.colorInput();
+    var tempC;
+    if (this.frameCount % 3 == 0){
+      for (var i = 0; i < this.staticRectPos.length; i++){
+          this.staticRectPos[i].elColor = colorRay[Math.round(Math.random() * 764)];//this.mouseColorP;
+      }
+    }
     this.staticRectPos.forEach(function(el){
       ctx.beginPath();
       ctx.rect(el.xPos, el.yPos, el.xWidth, el.yHeight);
       ctx.fillStyle = el.elColor;
       ctx.fill();
       ctx.closePath;
-    })
+    });
   }
 
 
@@ -88,6 +97,7 @@ function spawnChar(){
 
 
   this.update = function(){
+    this.frameCount++;
     this.updatePos(l, u, r, d);
     this.updateGFX();
   }
