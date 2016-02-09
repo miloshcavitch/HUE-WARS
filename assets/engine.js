@@ -90,6 +90,9 @@ $('#myCanvas').bind('mousewheel', function(e){
     }
     e.preventDefault();
 });
+$('#myCanvas').click(function(){
+  testChar.lastShotFrame = testChar.frameCount;
+});
 function engine(){
   ahora = Date.now();
   vel.mouseSpeed(mouseX);

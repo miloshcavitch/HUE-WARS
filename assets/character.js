@@ -1,5 +1,6 @@
 var charColorIndex = 0;
 function spawnChar(){
+  this.lastShotFrame = -10;//so it doesnt shoot on first frame
   this.Xcenter = canvas.width/2;
   this.Ycenter = canvas.height/2;
   this.unit = 4;//pixel size
@@ -189,6 +190,32 @@ function spawnChar(){
       ctx.closePath();
     });
   }
+  this.renderGunshot = function(){
+      ctx.beginPath();
+      ctx.globalAlpha = 0.25;
+      ctx.rect(this.Xcenter - this.unit * 1.5, 0, this.unit, this.Ycenter);
+      ctx.fillStyle = colorRay[scrollColor];
+      ctx.fill();
+      ctx.closePath();
+      ctx.beginPath();
+      ctx.globalAlpha = 1;
+      ctx.rect(this.Xcenter - this.unit/2, 0, this.unit, this.Ycenter);
+      ctx.fillStyle = colorRay[scrollColor];
+      ctx.fill();
+      ctx.closePath();
+      ctx.beginPath();
+      ctx.globalAlpha = 0.25;
+      ctx.rect(this.Xcenter + this.unit/2, 0, this.unit, this.Ycenter);
+      ctx.fillStyle = colorRay[scrollColor];
+      ctx.fill();
+      ctx.closePath();
+      ctx.globalAlpha = 1;
+  }
+  this.didGunshoot = function(){
+    if (this.frameCount <= this.lastShotFrame + 3){
+      this.renderGunshot();
+    }
+  }
   this.update = function(){
     this.frameCount++;
     this.updatePos(l, u, r, d);
@@ -197,6 +224,7 @@ function spawnChar(){
   this.updateGFX = function(){
     this.renderExhaust();
     this.staticShipRender();
+    this.didGunshoot();
     //this.colorCycle();
     //ctx.beginPath();
     //ctx.rect(this.Xcenter - this.thewidth/2, this.Ycenter + this.theheight/2, this.thewidth, this.theheight);
