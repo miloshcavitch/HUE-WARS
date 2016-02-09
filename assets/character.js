@@ -37,26 +37,35 @@ function spawnChar(){
                         {xPos: this.leftCenter - 3 * this.unit, yPos: this.topPos + 16 * this.unit, xWidth: this.unit, yHeight: 2 * this.unit, elColor: this.mouseColorS, cs: 1},
                         {xPos: this.leftCenter + 3 * this.unit, yPos: this.topPos + 16 * this.unit, xWidth: this.unit, yHeight: 2 * this.unit, elColor: this.mouseColorS, cs: 1}];
   this.colorInput = function(){
-    if (charColorIndex != this.rainbowIndex){
-      this.rainbowIndex = charColorIndex;
+    if (scrollColor != this.rainbowIndex){
+      this.rainbowIndex = scrollColor;
       this.mouseColorP = colorRay[this.rainbowIndex];
       if (this.rainbowIndex + 382 >= 765){
         this.mouseColorS = colorRay[765 - this.rainbowIndex - 382];
       } else {
         this.mouseColorS = colorRay[382 + this.rainbowIndex];
-        console.log(this.mouseColorS)
       }
     }
   }
 
   this.staticShipRender = function(){
     this.colorInput();
+    //this.selectedColorHighlight();
     var tempC;
     if (this.frameCount % 3 == 0){
       for (var i = 0; i < this.staticRectPos.length; i++){
           this.staticRectPos[i].elColor = colorRay[Math.round(Math.random() * 764)];//this.mouseColorP;
       }
     }
+    this.staticRectPos.forEach(function(el){
+      ctx.beginPath();
+      ctx.rect(el.xPos, el.yPos, el.xWidth, el.yHeight);
+      ctx.strokeStyle = colorRay[scrollColor];
+      ctx.lineWidth = 5;
+      ctx.stroke();
+      ctx.closePath();
+    })
+
     this.staticRectPos.forEach(function(el){
       ctx.beginPath();
       ctx.rect(el.xPos, el.yPos, el.xWidth, el.yHeight);
@@ -78,10 +87,21 @@ function spawnChar(){
     }
   }
   this.updatePos = function(l, u, r, d){
+    if (l == true){
+      this.Xcenter -= 5;
+    }
+    if (u == true){
+      this.Ycenter -= 5;
+    }
+    if (r == true){
+      this.Xcenter += 5;
+    }
+    if (d == true){
+      this.Ycenter += 5;
+    }
     this.staticRectPos.forEach(function(el){
       if (l == true){
         el.xPos -= 5;
-        console.log("left");
       }
       if (u == true){
         el.yPos -= 5;
@@ -93,15 +113,89 @@ function spawnChar(){
         el.yPos += 5;
       }
     })
+  /*  if (this.Xcenter + this.thewidth/2 >= canvas.width){
+      this.staticRectPos.forEach(function(el){
+        el.xPos -= 10;
+      });
+    }
+    if (this.Xcenter - this.thewidth/2 <= 0){
+      this.staticRectPos.forEach(function(el){
+        el.xPos -= 10;
+      });
+    }
+    */
+  }
+
+  this.selectedColorHighlight = function(){
+  ctx.beginPath();
+  ctx.arc(this.Xcenter, this.Ycenter + this.theheight/2 * this.unit + (this.unit), this.thewidth * this.unit, 0, Math.PI*2)
+  //ctx.globalAlpha = 0.2;
+  ctx.fillStyle = 'red';//this.mouseColorP;
+  ctx.fill();
+  //ctx.globalAlpha = 1;
+  ctx.closePath();
+  //console.log(this.Xcenter);
   }
 
 
+  this.exhaustColors = [];
+
+  this.initExhaust = function(){
+    for (var i = 0; i < 20; i++){
+      var xDirection = (Math.random() * 10) - 5;
+      var yDirection = (Math.random() * 10) - 5;
+      var alphSpeed = Math.random() * -0.1;
+      this.exhaustColors.push({xPos: 0, yPos: 0, xD: xDirection, yD: yDirection, elColor: 'red', alpha: 1, alphaSpeed: alphSpeed})
+    }
+  }
+  this.updateExhaust = function(){
+    //console.log(this.Xcenter + this.exhaustColors[2].yPos)
+    this.exhaustColors.forEach(function(el){
+      el.xPos += el.xD * vel.speed;
+      el.yPos += el.yD * vel.speed;
+      el.alpha += el.alphaSpeed;
+      /*
+      if (el.alpha <= 0){
+        el.xPos = 0;
+        el.yPos = 0;
+        el.alpha = 1;
+      }*/
+    });
+  }
+
+  var testParticle = {xPos: 0, yPos: 0, xD: 0, yD: 1, elColor: 'red', alpha: 1};
+  this.renderExhaust = function(){
+    ctx.beginPath();
+    ctx.rect(this.Xcenter + testParticle.xPos -this.unit/2, this.Ycenter + testParticle.yPos + (this.theheight * this.unit), this.unit, this.unit);
+    ctx.fillStyle = colorRay[scrollColor];
+    ctx.globalAlpha = testParticle.alpha;
+    ctx.fill();
+    ctx.closePath();
+    testParticle.yPos += vel.speed * 10;
+    testParticle.alpha -= 1;
+    if (testParticle.yPos >= vel.speed * 100){
+      testParticle.yPos = 0;
+      testParticle.alpha = 1;
+    }
+    ctx.globalAlpha = 1;
+    this.updateExhaust();
+    this.exhaustColors.forEach(function(el){
+      ctx.beginPath();
+      ctx.globalAlpha = el.alpha;
+      ctx.rect(el.xPos + this.Xcenter -this.unit/2, el.yPos + this.Ycenter + (this.theheight * this.unit), this.unit/2, this.unit);
+      ctx.fillStyle = el.elColor;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.closePath();
+    });
+  }
   this.update = function(){
     this.frameCount++;
     this.updatePos(l, u, r, d);
     this.updateGFX();
   }
   this.updateGFX = function(){
+    this.renderExhaust();
     this.staticShipRender();
     //this.colorCycle();
     //ctx.beginPath();
@@ -114,4 +208,6 @@ function spawnChar(){
 
 
 var testChar = new spawnChar();
+testChar.initExhaust();
+
 testChar.Ycenter = canvas.height/2;

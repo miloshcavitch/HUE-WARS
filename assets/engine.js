@@ -1,15 +1,16 @@
 var canvRect = canvas.getBoundingClientRect();
-var l, u, r, d;
+var l, u, r, d, i, d;
+var scrollColor = 380;
+var mouseX = 0;
+var vel = new velocity();
 $(document).ready(function(){
   for (var i = 0; i < 1000; i++){
     updateStars();
   }
   $(document).on("mousemove", function(){
     canvRect = canvas.getBoundingClientRect();
-    var xValue =event.pageX;
-    if (xValue >= canvRect.left && xValue <= canvRect.right){
-      charColorIndex =  Math.round((Math.abs(canvRect.left - xValue)/canvas.width * 765));
-    }
+    var xValue = event.pageX;
+    mouseX = event.pageX;
   });
   $(document).keydown(function(e) {
     switch(e.which) {
@@ -27,6 +28,14 @@ $(document).ready(function(){
 
         case 40:
         d = true; // down
+        break;
+
+        case 87:
+        i = true;
+        break;
+
+        case 83:
+        d = true;
         break;
 
         default: return; // exit this handler for other keys
@@ -51,14 +60,40 @@ $(document).ready(function(){
       d = false;
       break;
 
+      case 87:
+      i = false;
+      break;
+
+      case 83:
+      d = false;
+      break;
+
       default: return;
     }
     e.preventDefault();
   });
 });
-
+$('#myCanvas').bind('mousewheel', function(e){
+    if(e.originalEvent.wheelDelta /120 > 0) {
+        scrollColor += 10;
+        if (scrollColor > 765){
+          scrollColor = 10;
+        }
+        console.log(scrollColor);
+    }
+    else{
+        scrollColor -= 10;
+        if (scrollColor < 5){
+          scrollColor = 760;
+        }
+        console.log(scrollColor);
+    }
+    e.preventDefault();
+});
 function engine(){
   ahora = Date.now();
+  vel.mouseSpeed(mouseX);
+  vel.incrementCount();
   updateStars();
   testChar.update();
 }
