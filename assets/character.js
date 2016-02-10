@@ -3,7 +3,7 @@ function spawnChar(){
   this.lastShotFrame = -10;//so it doesnt shoot on first frame
   this.Xcenter = canvas.width/2;
   this.Ycenter = canvas.height/2;
-  this.unit = 4;//pixel size
+  this.unit = 4;//pixel size6
   this.theheight = 16 ;
   this.thewidth = 15;
   this.animationI = 0;
@@ -62,7 +62,7 @@ function spawnChar(){
       ctx.beginPath();
       ctx.rect(el.xPos, el.yPos, el.xWidth, el.yHeight);
       ctx.strokeStyle = colorRay[scrollColor];
-      ctx.lineWidth = 5;
+      ctx.lineWidth = 3;
       ctx.stroke();
       ctx.closePath();
     })
@@ -193,19 +193,32 @@ function spawnChar(){
   this.renderGunshot = function(){
       ctx.beginPath();
       ctx.globalAlpha = 0.25;
-      ctx.rect(this.Xcenter - this.unit * 1.5, 0, this.unit, this.Ycenter);
+      ctx.rect(this.Xcenter - this.unit * 1.5, 0, this.unit, this.Ycenter - (3 * this.unit));
       ctx.fillStyle = colorRay[scrollColor];
       ctx.fill();
       ctx.closePath();
+/*
+      ctx.beginPath();//extra stuff
+      ctx.rect(this.Xcenter - this.unit, 0, this.unit * 2, this.Ycenter - (3 * this.unit));
+      ctx.fillStyle = colorRay[scrollColor];
+      ctx.fill();
+      ctx.closePath();
+*/
+      ctx.beginPath();
+      ctx.rect(this.Xcenter - 2 *this.unit, this.Ycenter, 1, 0);
+      ctx.fillStyle = colorRay[scrollColor];
+      ctx.fill();
+      ctx.closePath();
+
       ctx.beginPath();
       ctx.globalAlpha = 1;
-      ctx.rect(this.Xcenter - this.unit/2, 0, this.unit, this.Ycenter);
+      ctx.rect(this.Xcenter - this.unit/2, 0, this.unit, this.Ycenter- (2* this.unit));
       ctx.fillStyle = colorRay[scrollColor];
       ctx.fill();
       ctx.closePath();
       ctx.beginPath();
       ctx.globalAlpha = 0.25;
-      ctx.rect(this.Xcenter + this.unit/2, 0, this.unit, this.Ycenter);
+      ctx.rect(this.Xcenter + this.unit/2, 0, this.unit, this.Ycenter- (3 * this.unit));
       ctx.fillStyle = colorRay[scrollColor];
       ctx.fill();
       ctx.closePath();

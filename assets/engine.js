@@ -91,13 +91,16 @@ $('#myCanvas').bind('mousewheel', function(e){
     e.preventDefault();
 });
 $('#myCanvas').click(function(){
-  testChar.lastShotFrame = testChar.frameCount;
+  //testChar.lastShotFrame = testChar.frameCount;
+  //testChar.renderGunshot();
+  activeShots.push(new shot(testChar.Xcenter, testChar.Ycenter, 0, -10, scrollColor, 15, 'rainbow'));
 });
 function engine(){
   ahora = Date.now();
   vel.mouseSpeed(mouseX);
   vel.incrementCount();
   updateStars();
+  shotsRender();
   testChar.update();
 }
 

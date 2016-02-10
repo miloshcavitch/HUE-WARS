@@ -73,6 +73,9 @@ function starVelocityController(){
 }
 function LayerTraverse(el){//runs updateStar for all the stars
     el.updateStar();
+    if (el.posY > canvas.height + el.thesize){
+      starLayers.splice(starLayers.indexOf(el), 1);
+    }
 }
 var fpsCounter = 0;
 var lastSecond = 0;
