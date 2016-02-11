@@ -190,9 +190,9 @@ function spawnChar(){
       ctx.closePath();
     });
   }
-  this.renderGunshot = function(){
+  this.renderGunshot = function(frameAlpha){
       ctx.beginPath();
-      ctx.globalAlpha = 0.25;
+      ctx.globalAlpha = frameAlpha/4;
       ctx.rect(this.Xcenter - this.unit * 1.5, 0, this.unit, this.Ycenter - (3 * this.unit));
       ctx.fillStyle = colorRay[scrollColor];
       ctx.fill();
@@ -211,13 +211,13 @@ function spawnChar(){
       ctx.closePath();
 
       ctx.beginPath();
-      ctx.globalAlpha = 1;
+      ctx.globalAlpha = frameAlpha;
       ctx.rect(this.Xcenter - this.unit/2, 0, this.unit, this.Ycenter- (2* this.unit));
       ctx.fillStyle = colorRay[scrollColor];
       ctx.fill();
       ctx.closePath();
       ctx.beginPath();
-      ctx.globalAlpha = 0.25;
+      ctx.globalAlpha = frameAlpha/4;
       ctx.rect(this.Xcenter + this.unit/2, 0, this.unit, this.Ycenter- (3 * this.unit));
       ctx.fillStyle = colorRay[scrollColor];
       ctx.fill();
@@ -225,8 +225,23 @@ function spawnChar(){
       ctx.globalAlpha = 1;
   }
   this.didGunshoot = function(){
-    if (this.frameCount <= this.lastShotFrame + 3){
-      this.renderGunshot();
+    if (this.frameCount <= this.lastShotFrame + 4){
+      var framenumber = this.frameCount - this.lastShotFrame;
+      var frameAlpha;
+      switch(framenumber){
+        case 1:
+          frameAlpha = 0.5;
+          break;
+        case 2:
+        case 3:
+          frameAlpha = 1;
+          break;
+        case 4:
+          frameAlpha = 0.5;
+        default:
+          frameAlpha = 1;
+      }
+      this.renderGunshot(frameAlpha);
     }
   }
   this.update = function(){

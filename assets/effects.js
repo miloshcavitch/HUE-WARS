@@ -22,7 +22,7 @@ var shotController = function(){
     el.yPos += el.yD;
     el.flickerSineX += 0.5;
     if (el.type == 'rainbow'){
-      el.colorIndex += 15;
+      el.colorIndex += 20;
       if (el.colorIndex >= 765){
         el.colorIndex = 0;
       }

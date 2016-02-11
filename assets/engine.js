@@ -14,28 +14,24 @@ $(document).ready(function(){
   });
   $(document).keydown(function(e) {
     switch(e.which) {
+        case 65:
         case 37: // left
         l = true;
         break;
 
+        case 87:
         case 38:
         u = true; // up
         break;
 
+        case 68:
         case 39:
         r = true; // right
         break;
 
         case 40:
-        d = true; // down
-        break;
-
-        case 87:
-        i = true;
-        break;
-
         case 83:
-        d = true;
+        d = true; // down
         break;
 
         default: return; // exit this handler for other keys
@@ -44,26 +40,22 @@ $(document).ready(function(){
   });
   $(document).keyup(function(e){
     switch(e.which){
+      case 65:
       case 37:
       l = false;
       break;
 
+      case 87:
       case 38:
       u = false;
       break;
 
       case 39:
+      case 68:
       r = false;
       break;
 
       case 40:
-      d = false;
-      break;
-
-      case 87:
-      i = false;
-      break;
-
       case 83:
       d = false;
       break;
@@ -93,7 +85,7 @@ $('#myCanvas').bind('mousewheel', function(e){
 $('#myCanvas').click(function(){
   //testChar.lastShotFrame = testChar.frameCount;
   //testChar.renderGunshot();
-  activeShots.push(new shot(testChar.Xcenter, testChar.Ycenter, 0, -10, scrollColor, 15, 'rainbow'));
+  activeShots.push(new shot(testChar.Xcenter, testChar.Ycenter, 0, -12, scrollColor, 7, 'rainbow'));
 });
 function engine(){
   ahora = Date.now();
